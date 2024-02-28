@@ -14,11 +14,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export function OrderDetails() {
+import { OrderTableRowProps } from './order-table-row'
+
+export function OrderDetails({ order }: OrderTableRowProps) {
+  const { createdAt, customerName, orderId, status, total } = order
+
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Order: ada9s8das90d8</DialogTitle>
+        <DialogTitle>Order: {orderId}</DialogTitle>
         <DialogDescription>Order details</DialogDescription>
       </DialogHeader>
 
@@ -38,7 +42,7 @@ export function OrderDetails() {
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Client</TableCell>
-              <TableCell className="flex justify-end">Lucas Tenani</TableCell>
+              <TableCell className="flex justify-end">{customerName}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Phone</TableCell>
