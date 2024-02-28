@@ -1,9 +1,11 @@
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { Link, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -15,20 +17,26 @@ const signInForm = z.object({
 type SignInFormInputs = z.infer<typeof signInForm>
 
 export function SignIn() {
+  const [searchParams] = useSearchParams()
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<SignInFormInputs>()
+  } = useForm<SignInFormInputs>({
+    defaultValues: { email: searchParams.get('email') ?? '' },
+  })
 
-  async function handleSignIn(data: SignInFormInputs) {
+  const { mutateAsync: authenticate } = useMutation({ mutationFn: signIn })
+
+  async function handleSignIn({ email }: SignInFormInputs) {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await authenticate({ email })
 
       toast.success('We send an authentication link to your email', {
         action: {
           label: 'Resend',
-          onClick: () => handleSignIn(data),
+          onClick: () => handleSignIn({ email }),
         },
       })
     } catch (error) {
