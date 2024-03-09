@@ -6,7 +6,7 @@ import { NotFound } from './pages/404'
 import { SignIn } from './pages/auth/sign-in'
 import { SignUp } from './pages/auth/sign-up'
 import { Dashboard } from './pages/dashboard/dashboard'
-import { Orders } from './pages/orders/order'
+import { Orders } from './pages/orders/orders'
 
 export const router = createBrowserRouter([
   {
